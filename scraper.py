@@ -1,5 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
 import time
 
 class Scraper:
@@ -21,8 +24,9 @@ class Scraper:
         paymonthly = self.driver.find_element_by_id("paymonthly")
         paymonthly.click()
 
-        landlinePrice = self.driver.find_element_by_xpath("//*[@id=\"standardRatesTable\"]/tbody/tr[1]/td[2]")
-        time.sleep(1)
+        wait = WebDriverWait(self.driver, 10)
+        landlinePrice = wait.until(EC.visibility_of_element_located((By.XPATH, "//*[@id=\"standardRatesTable\"]/tbody/tr[1]/td[2]")))
+
         return landlinePrice.text
 
 if __name__ == "__main__":
